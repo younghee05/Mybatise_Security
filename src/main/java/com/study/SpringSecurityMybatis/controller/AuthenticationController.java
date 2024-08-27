@@ -1,11 +1,13 @@
 package com.study.SpringSecurityMybatis.controller;
 
+import com.study.SpringSecurityMybatis.aspect.annotation.ValidAop;
+import com.study.SpringSecurityMybatis.dto.request.ReqSigninDto;
 import com.study.SpringSecurityMybatis.dto.request.ReqSignupDto;
+import com.study.SpringSecurityMybatis.exception.SingupException;
 import com.study.SpringSecurityMybatis.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
-import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
@@ -18,25 +20,16 @@ public class AuthenticationController {
     @Autowired
     private UserService userService;
 
+    @ValidAop
     @PostMapping("/auth/signup") // ReqSignupDto 와 BindingResult 가 같이 따라와야 한다.
-    public ResponseEntity<?> signup(@Valid @RequestBody ReqSignupDto dto, BindingResult bindingResult) {
-
-        if(!dto.getPassword().equals(dto.getCheckPassword())) {
-            FieldError fieldError
-                    = new FieldError("checkPassword", "checkPassword", "비밀번호가 일치하지 않습니다.");
-            bindingResult.addError(fieldError);
-        }
-
-        if(userService.isDuplicateUsername(dto.getUsername())) {
-            FieldError fieldError
-                    = new FieldError("username", "username", "이미 존재하는 사용자이름 입니다.");
-            bindingResult.addError(fieldError);
-        }
-
-        if(bindingResult.hasErrors()) {
-            return ResponseEntity.badRequest().body(bindingResult.getFieldError());
-        }
+    public ResponseEntity<?> signup(@Valid @RequestBody ReqSignupDto dto, BindingResult bindingResult) throws SingupException {
 
         return ResponseEntity.ok().body(userService.insertUserAndUserRoles(dto));
+    }
+
+    @ValidAop
+    @PostMapping("/auth/signin")
+    public ResponseEntity<?> signin(@Valid @RequestBody ReqSigninDto dto, BindingResult bindingResult) {
+        return ResponseEntity.ok().body(userService.getGeneratedAccessToken(dto));
     }
 }
