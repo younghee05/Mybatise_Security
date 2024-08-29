@@ -61,11 +61,11 @@ public class ValidAspect {
                     bindingResult.addError(fieldError);
                 }
 
-//                if(userService.isDuplicateUsername(dto.getUsername())) {
-//                    FieldError fieldError
-//                            = new FieldError("username", "username", "이미 존재하는 사용자이름 입니다.");
-//                    bindingResult.addError(fieldError);
-//                }
+                if(userService.isDuplicateUsername(dto.getUsername())) {
+                    FieldError fieldError
+                            = new FieldError("username", "username", "이미 존재하는 사용자이름 입니다.");
+                    bindingResult.addError(fieldError);
+                }
                 break;
             }
         }

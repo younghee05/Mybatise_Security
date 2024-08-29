@@ -1,5 +1,6 @@
 package com.study.SpringSecurityMybatis.controller;
 
+import com.study.SpringSecurityMybatis.exception.AccessTokenValidException;
 import com.study.SpringSecurityMybatis.exception.SingupException;
 import com.study.SpringSecurityMybatis.exception.ValidException;
 import org.springframework.http.ResponseEntity;
@@ -25,5 +26,10 @@ public class ExceptionControllerAdvice {
     @ExceptionHandler(AuthenticationException.class)
     public ResponseEntity<?> authenticationException(AuthenticationException e) {
         return ResponseEntity.badRequest().body(e.getMessage());
+    }
+
+    @ExceptionHandler(AccessTokenValidException.class)
+    public ResponseEntity<?> accessTokenValidException(AccessTokenValidException e) {
+        return ResponseEntity.status(403).body(false);
     }
 }

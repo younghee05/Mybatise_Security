@@ -7,7 +7,8 @@ CREATE TABLE USER (
     id BIGINT Not NULL AUTO_INCREMENT PRIMARY KEY,
     username VARCHAR(255) not null UNIQUE,
     password VARCHAR(255) not null,
-    name VARCHAR(255) not null
+    name VARCHAR(255) not null,
+    email VARCHAR(255) not null
 );
 
 CREATE TABLE ROLE (
@@ -25,3 +26,5 @@ CREATE TABLE USER_ROLES (
     user_id BIGINT NOT NULL,
     role_id BIGINT NOT NULL
 );
+
+--ALTER TABLE 'USER' ADD COLUMN email VARCHAR(255) NOT NULL;
