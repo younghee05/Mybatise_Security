@@ -5,6 +5,7 @@ import com.study.SpringSecurityMybatis.dto.request.ReqSignupDto;
 import com.study.SpringSecurityMybatis.dto.response.RespDeleteUserDto;
 import com.study.SpringSecurityMybatis.dto.response.RespSigninDto;
 import com.study.SpringSecurityMybatis.dto.response.RespSignupDto;
+import com.study.SpringSecurityMybatis.dto.response.RespUserInfoDto;
 import com.study.SpringSecurityMybatis.entity.Role;
 import com.study.SpringSecurityMybatis.entity.User;
 import com.study.SpringSecurityMybatis.entity.UserRoles;
@@ -28,6 +29,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.sql.SQLException;
 import java.util.Optional;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 @Service
 public class UserService {
@@ -130,6 +132,21 @@ public class UserService {
                 .isDeleting(true)
                 .message("사용자 삭제 완료")
                 .deleteUser(user)
+                .build();
+    }
+
+    public RespUserInfoDto getUserInfo(Long id) {
+        User user = userMapper.findById(id);
+        Set<String> roles = user.getUserRoles().stream().map(
+                userRoles -> userRoles.getRole().getName()
+        ).collect(Collectors.toSet());
+
+        return RespUserInfoDto.builder()
+                .userId(user.getId())
+                .username(user.getUsername())
+                .name(user.getName())
+                .email(user.getEmail())
+                .roles(roles)
                 .build();
     }
 }
