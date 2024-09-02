@@ -35,7 +35,10 @@ public class JwtProvider {
                 .signWith(key, SignatureAlgorithm.HS256)
                 .compact();
     }
-    public String removeBearer(String bearerToken) {
+    public String removeBearer(String bearerToken) throws RuntimeException {
+        if(bearerToken == null) {
+            throw new RuntimeException();
+        }
         int bearerLength = "bearer ".length();
         return bearerToken.substring(bearerLength);
     }
