@@ -10,6 +10,8 @@ public interface UserMapper {
 
     User findByUsername(String username);
 
+    User findByOAuth2Name(String oAuth2Name);
+
     int save(User user);
 
     int deleteById(Long id);

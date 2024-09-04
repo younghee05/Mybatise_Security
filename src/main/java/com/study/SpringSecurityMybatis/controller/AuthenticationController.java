@@ -2,8 +2,10 @@ package com.study.SpringSecurityMybatis.controller;
 
 import com.study.SpringSecurityMybatis.aspect.annotation.ValidAop;
 import com.study.SpringSecurityMybatis.dto.request.ReqAccessDto;
+import com.study.SpringSecurityMybatis.dto.request.ReqOAuth2MergeDto;
 import com.study.SpringSecurityMybatis.dto.request.ReqSigninDto;
 import com.study.SpringSecurityMybatis.dto.request.ReqSignupDto;
+import com.study.SpringSecurityMybatis.entity.OAuth2User;
 import com.study.SpringSecurityMybatis.exception.SingupException;
 import com.study.SpringSecurityMybatis.service.TokenService;
 import com.study.SpringSecurityMybatis.service.UserService;
@@ -37,6 +39,14 @@ public class AuthenticationController {
     @PostMapping("/auth/signin")
     public ResponseEntity<?> signin(@Valid @RequestBody ReqSigninDto dto, BindingResult bindingResult) {
         return ResponseEntity.ok().body(userService.getGeneratedAccessToken(dto));
+    }
+
+    @ValidAop
+    @PostMapping("/auth/oauth2/merge")
+    public ResponseEntity<?> oAuth2Merge(@Valid @RequestBody ReqOAuth2MergeDto dto, BindingResult bindingResult) {
+        OAuth2User oAuth2User = userService.mergeSignin(dto);
+
+        return ResponseEntity.ok().body(null);
     }
 
     @GetMapping("/auth/access")
