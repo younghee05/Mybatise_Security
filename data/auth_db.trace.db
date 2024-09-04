@@ -292,3 +292,12 @@ Caused by: java.lang.IllegalStateException: The file is locked: nio:C:/sqf-kyh/s
 	at org.h2.mvstore.FileStore.open(FileStore.java:172)
 	at org.h2.mvstore.MVStore.<init>(MVStore.java:381)
 	... 100 more
+2024-09-04 10:24:41 jdbc[13]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Syntax error in SQL statement "DESC[*] OAUTH2_USER"; expected "DELETE, DROP, DECLARE, DEALLOCATE"; SQL statement:
+desc oauth2_user [42001-200]
+2024-09-04 10:24:47 jdbc[13]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Syntax error in SQL statement "DESCRIBE[*] OAUTH2_USER"; expected "DELETE, DROP, DECLARE, DEALLOCATE"; SQL statement:
+describe oauth2_user [42001-200]
+2024-09-04 10:36:03 jdbc[13]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Table "OAUTH2" not found; SQL statement:
+TRUNCATE TABLE OAUTH2 USER [42102-200]

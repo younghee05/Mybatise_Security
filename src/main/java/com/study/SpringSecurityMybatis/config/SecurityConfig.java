@@ -30,13 +30,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Autowired
     private OAuth2Service oAuth2Service;
 
-    @Bean
-    public BCryptPasswordEncoder passwordEncoder() {
-        return new BCryptPasswordEncoder();
-    }
-
-
-
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.formLogin().disable();
@@ -49,7 +42,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
         http.oauth2Login()
                 .successHandler(oAuth2SuccessHandler)
-                .userInfoEndpoint() // 유저들의 정보를 userService에 전달
+                .userInfoEndpoint() // 유저들의 정보들을 userService에 전달
                 .userService(oAuth2Service);
 
         // 월래 403 오류가 떠야하는데 우리가 다시 커스텀 하는 것
